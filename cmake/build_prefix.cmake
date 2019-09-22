@@ -1,4 +1,3 @@
-
 # Determine the platform
 # -----------------------------------------------------------------------
 if(WIN32)
@@ -32,6 +31,8 @@ elseif(MSVC14)
   set(COMPILER_ID "vc2015")
 elseif(MSVC15)
   set(COMPILER_ID "vc2017")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set(COMPILER_ID "Clang")
 else()
   set(COMPILER_ID "unknown")
 endif()
