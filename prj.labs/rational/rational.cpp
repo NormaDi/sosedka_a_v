@@ -23,7 +23,16 @@ struct Rational {
     static const char separator{','};
     static const char rightBrace{'}'};
 
-    void GCD();
+    void simplify();
+    void verify();
+
+    static int gcd(int n, int d){
+        while (d) {
+            n %= d;
+            std::swap (n, d);
+        }
+        return n;
+    }
 };
 
 Rational operator+(const Rational& lhs, const Rational& rhs);
@@ -54,15 +63,14 @@ Rational::Rational(const int numerator) : Rational(numerator, 1) {
 }
 
 Rational::Rational(const int numerator, const int denominator) : num(numerator), denom(denominator){
-    if (denominator == 0){
-        std::cout << "Denominator can't be 0" << std::endl;
-        denom = 1;
-    }
+    verify();
+    simplify();
 }
 
 Rational& Rational::operator+=(const Rational& rhs) {
     num = num * rhs.denom + rhs.num * denom;
     denom *= rhs.denom;
+    simplify();
     return *this;
 }
 
@@ -80,7 +88,7 @@ Rational operator-(const Rational& lhs, const Rational& rhs){
 
 Rational& Rational::operator*=(const int rhs) {
     num *= rhs;
-    GCD();
+    simplify();
     return *this;
 }
 
@@ -98,9 +106,11 @@ std::istream& Rational::readFrom(std::istream& istrm) {
     istrm >> leftBrace >> numerator >> comma >> denominator >> rightBrace;
     if (istrm.good()) {
         if ((Rational::leftBrace == leftBrace) && (Rational::separator == comma) &&
-            (Rational::rightBrace == rightBrace) && (denominator != 0)) {
+            (Rational::rightBrace == rightBrace)) {
             num = numerator;
             denom = denominator;
+            verify();
+            simplify();
         } else {
             istrm.setstate(std::ios_base::failbit);
         }
@@ -108,15 +118,17 @@ std::istream& Rational::readFrom(std::istream& istrm) {
     return istrm;
 }
 
-void Rational::GCD() {
-    int n = num;
-    int d = denom;
-    while (d) {
-        n %= d;
-        std::swap (n, d);
+void Rational::verify() {
+    if (denom == 0){
+        std::cout << "Denominator can't be 0!" << std::endl;
+        denom = 1;
     }
-    num /= n;
-    denom /= n;
+}
+
+void Rational::simplify() {
+    int g = gcd(num, denom);
+    num /= g;
+    denom /= g;
 }
 
 int main() {
@@ -125,10 +137,11 @@ int main() {
     Rational z;
     z += Rational(8, 2);
     cout << Rational(1, 0) << endl;
-    z.GCD();
     cout << z << endl;
     testParse("{8,9}");
     testParse("{8, 9}");
+    testParse("{81, 9}");
+    testParse("{3, 6}");
     testParse("{8,9");
     return 0;
 }
