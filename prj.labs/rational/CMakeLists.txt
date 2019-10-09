@@ -1,2 +1,6 @@
-add_executable(rational rational.cpp)
-set_property(TARGET rational PROPERTY CXX_STANDARD 14)
+project(Rational)
+
+add_library(rational_lib STATIC rational.cpp rational.h)
+
+add_executable(rational main.cpp)
+target_link_libraries(rational PRIVATE rational_lib)
