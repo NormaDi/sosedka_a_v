@@ -1,12 +1,14 @@
-#include "longmath.h"
+#include <long_int/long_int.h>
+
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 using namespace std;
 
 bool TestParse(const std::string &str) {
-  istringstream istrm(str);
-  Longmath z;
+  istringstream istrm(str + '\n');
+  LInt z;
   istrm >> z;
   if (istrm.good()) {
     cout << "Read success: " << str << " -> " << z << endl;

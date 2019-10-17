@@ -1,7 +1,6 @@
-#include <iostream>
 #include <sstream>
 #include <cmath>
-#include "complex.h" // NOLINT(modernize-deprecated-headers,hicpp-deprecated-headers)
+#include <complex/complex.h>
 
 Complex::Complex(const double real)
     : Complex(real, 0.0) {

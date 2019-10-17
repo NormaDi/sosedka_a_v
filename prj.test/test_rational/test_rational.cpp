@@ -1,4 +1,5 @@
-#include "rational.h"
+#include <rational/rational.h>
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -6,7 +7,7 @@
 using namespace std;
 
 bool TestParse(const std::string &str) {
-  istringstream istrm(str);
+  istringstream istrm(str + "\n");
   Rational z;
   istrm >> z;
   if (istrm.good()) {
@@ -29,10 +30,10 @@ int main() {
   Rational z(1);
   z += Rational(8, 2);
   cout << z << endl;
-  TestParse("{-8/9}");
-  TestParse("{-8/ -9}");
-  TestParse("{81/ -9}");
-  TestParse("{3 /6}");
+  TestParse("-8/9");
+  TestParse("-8/ -9");
+  TestParse("81/ -9");
+  TestParse("3 /6");
   TestParse("{8/9");
   return 0;
 }

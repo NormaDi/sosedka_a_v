@@ -1,10 +1,11 @@
+#include <complex/complex.h>
+
 #include <iostream>
 #include <sstream>
-#include "complex.h" // NOLINT(modernize-deprecated-headers,hicpp-deprecated-headers)
 
 bool TestParse(const std::string &str) {
   using namespace std;
-  istringstream istrm(str);
+  istringstream istrm(str + '\n');
   Complex z;
   istrm >> z;
   if (istrm.good()) {

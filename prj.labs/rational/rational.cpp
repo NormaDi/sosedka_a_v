@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include "rational.h"
+#include <rational/rational.h>
 
 Rational::Rational(const int numerator) : Rational(numerator, 1) {}
 Rational::Rational(const int numerator, const int denominator) : numerator_(numerator), denominator_(denominator) {
@@ -53,20 +53,17 @@ std::istream &operator>>(std::istream &istrm, Rational &rhs) {
 }
 
 std::ostream &Rational::WriteTo(std::ostream &ostrm) const {
-  ostrm << left_brace_ << numerator_ << separator_ << denominator_ << right_brace_;
+  ostrm << numerator_ << separator_ << denominator_;
   return ostrm;
 }
 
 std::istream &Rational::ReadFrom(std::istream &istrm) {
-  char left_brace('{');
   int numerator(0);
   char slash('/');
   int denominator(1);
-  char right_brace('}');
-  istrm >> left_brace >> numerator >> slash >> denominator >> right_brace;
+  istrm >> numerator >> slash >> denominator;
   if (istrm.good()) {
-    if ((Rational::left_brace_ == left_brace) && (Rational::separator_ == slash) &&
-        (Rational::right_brace_ == right_brace)) {
+    if (Rational::separator_ == slash) {
       Rational::numerator_ = numerator;
       Rational::denominator_ = denominator;
       Rational::Verify();

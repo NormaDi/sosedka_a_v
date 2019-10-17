@@ -32,9 +32,7 @@ struct Rational {
   int numerator_{0};
   int denominator_{1};
 
-  static const char left_brace_{'{'};
   static const char separator_{'/'};
-  static const char right_brace_{'}'};
 
   void Simplify();
 
